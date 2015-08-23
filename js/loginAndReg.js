@@ -103,7 +103,7 @@ function loginCheck(obj){
 		
 	}
    jq('.bderror').remove();
-   var a = jq('#userName').checkForm({className:"index_check",content:["请输入邮箱/手机号/用户名"],type:[1],checkFormType:obj, displayNum:true});
+   var a = jq('.js-userName').checkForm({className:"index_check",content:["请输入邮箱/手机号/用户名"],type:[1],checkFormType:obj, displayNum:true});
    var b = jq('#userNum').checkForm({className:"index_check",content:["密码不可以为空"],type:[1],checkFormType:obj, displayNum:true});
 
    var codeFlag = jq('#userCode').length == 0?false:true,
@@ -168,7 +168,7 @@ function checkOtform(obj){
 	}
 	
    jq('.bderror').remove();
-   var a = jq('#userName').checkForm({className:"index_check",content:["请输入邮箱/手机号/用户名"],type:[1],checkFormType:obj, displayNum:true});
+   var a = jq('.js-userName').checkForm({className:"index_check",content:["请输入邮箱/手机号/用户名"],type:[1],checkFormType:obj, displayNum:true});
    var b = jq('#userNum').checkForm({className:"index_check",content:["密码不可以为空"],type:[1],checkFormType:obj, displayNum:true});
    if( a != 0 || b != 0){
 	   return false;  
@@ -514,7 +514,7 @@ function regDoc(){
     //显示隐藏验证码
     jq('.send_auto').click(function(){
         var authCode = jq('.auth_code'),
-            email = jq('#emailAndPhone'),
+            email = jq('.js-emailAndPhone'),
             tip = email.parent().find('.index_check').length;
 
         if(authCode.is(':hidden')) {
@@ -522,8 +522,7 @@ function regDoc(){
                 authCode.show();
                 jq('.authCodeText').focus();
             } else if(tip == 0) {
-                addWrongTip({targ:'#emailAndPhone', tip: '请输入邮箱/手机号码'});
-                //email.focus();
+                addWrongTip({targ:'.js-emailAndPhone', tip: '请输入邮箱/手机号码'});
             }
         } else {
             authCode.hide();
@@ -573,7 +572,7 @@ var regObj = {chgFlag: 0};
 
 //记录value变化的函数，防止重复验证
 function recordValueChg() {
-	jq('#emailAndPhone, #userName, #autoCode').on('change', function() {
+	jq('.js-emailAndPhone, .js-userName, .js-autoCode').on('change', function() {
 		regObj.chgFlag = 1;	
 	});	
 }
@@ -581,12 +580,12 @@ function recordValueChg() {
 
 function checkNullFn() {
 	var obj = jq('#reg_form').find('.btn_login').parent();
-	var a = jq('#emailAndPhone').checkForm({className:"index_check",content:["请输入邮箱/手机号"],type:[1], checkFormType: obj});
-	var b = jq('#userName').checkForm({className:"index_check",content:["用户名不可以为空"],type:[1], checkFormType: obj});
-	var c = jq('#useNum').checkForm({className:"index_check",content:["密码不可以为空"],type:[1], checkFormType: obj});
-	var d = jq('#autoCode').checkForm({className:"index_check",content:["验证码不可以为空"],type:[1], checkFormType: obj});
+	var a = jq('.js-emailAndPhone').checkForm({className:"index_check",content:["请输入邮箱/手机号"],type:[1], checkFormType: obj});
+	var b = jq('.js-userName').checkForm({className:"index_check",content:["用户名不可以为空"],type:[1], checkFormType: obj});
+	var c = jq('.js-useNum').checkForm({className:"index_check",content:["密码不可以为空"],type:[1], checkFormType: obj});
+	var d = jq('.js-autoCode').checkForm({className:"index_check",content:["验证码不可以为空"],type:[1], checkFormType: obj});
     if(c != 0) {
-        jq('#useNum').prev('input').css('border-color', '#ff6767');
+        jq('.js-useNum').prev('input').css('border-color', '#ff6767');
     }
 	if(a==0&&b==0&&c==0&&d==0) {
 		return true;	
@@ -598,7 +597,7 @@ function checkNullFn() {
 function checkRepeatAndWrong(obj) {
 	if(obj.num == 0 && obj.val != '' && regObj.chgFlag == 1) {
 		var myUrl = 'http://www.to8to.com/reg/reg_new.php?ajax_reg_check=1';	
-		myUrl += '&email_mobile='+ encodeURIComponent(jq('#emailAndPhone').val()) + '&username='+ encodeURIComponent(jq('#userName').val()) + '&yzm=' + encodeURIComponent(jq('#autoCode').val());
+		myUrl += '&email_mobile='+ encodeURIComponent(jq('.js-emailAndPhone').val()) + '&username='+ encodeURIComponent(jq('.js-userName').val()) + '&yzm=' + encodeURIComponent(jq('.js-autoCode').val());
 		
 		jq.ajax({
 			type: 'get',
@@ -607,22 +606,22 @@ function checkRepeatAndWrong(obj) {
 			success: function(res) {
 				var flag = true;
 				if(res.email_moblie.data == -1) {//手机或邮箱失败
-					if(jq('#emailAndPhone').siblings('.index_check').length == 0) {
-						addWrongTip({targ: '#emailAndPhone', tip: '邮箱/手机号已被使用，请重新输入'});
+					if(jq('.js-emailAndPhone').siblings('.index_check').length == 0) {
+						addWrongTip({targ: '.js-emailAndPhone', tip: '邮箱/手机号已被使用，请重新输入'});
 					}
 					flag = false;
 				} 
 				
 				if(res.username.data == -1) {//用户名失败
-					if(jq('#userName').siblings('.index_check').length == 0) {
-						addWrongTip({targ: '#userName', tip: '此用户名已被使用，请重新输入'});
+					if(jq('.js-userName').siblings('.index_check').length == 0) {
+						addWrongTip({targ: '.js-userName', tip: '此用户名已被使用，请重新输入'});
 					}	
 					flag = false;	
 				} 
 				
 				if(res.yzm.data == -1) {//验证码输入错误
-					if(jq('#autoCode').siblings('.index_check').length == 0) {
-						addWrongTip({targ: '#autoCode', tip: '验证码错误，请重新输入'});
+					if(jq('.js-autoCode').siblings('.index_check').length == 0) {
+						addWrongTip({targ: '.js-autoCode', tip: '验证码错误，请重新输入'});
 					}
 					flag = false;		
 				} 
@@ -643,7 +642,7 @@ function submitRegData() {
 	jq.ajax({
 		type: 'post',
 		url: 'http://www.to8to.com/reg/reg_new.php',
-		data: {mobile: jq('#emailAndPhone').val(), username: jq('#userName').val(), password1: jq('#useNum').val(), mobile_yzm: jq('#autoCode').val(), indentity: jq('#indentity').val()},
+		data: {mobile: jq('.js-emailAndPhone').val(), username: jq('.js-userName').val(), password1: jq('.js-useNum').val(), mobile_yzm: jq('.js-autoCode').val(), indentity: jq('#indentity').val()},
 		dataType:'json',
 		success: function(res) {
 			window.location.reload();
@@ -653,51 +652,51 @@ function submitRegData() {
 
 //检测邮箱或手机重复
 function checkMailRepeat(obj) {
-	var f = jq('#emailAndPhone').checkForm({className:"index_check",content:["请输入邮箱/手机号码","邮箱或手机号码错误"],type:['',2],reg:[0,2],moreReg:true,checkFormType:obj});
-	checkRepeatAndWrong({num:f, val: jq('#emailAndPhone').val()});	
+	var f = jq('.js-emailAndPhone').checkForm({className:"index_check",content:["请输入邮箱/手机号码","邮箱或手机号码错误"],type:['',2],reg:[0,2],moreReg:true,checkFormType:obj});
+	checkRepeatAndWrong({num:f, val: jq('.js-emailAndPhone').val()});	
 }
 
 //检测用户名重复
 function checkUserRepeat(obj) {
-	var b = jq('#userName').checkForm({className:"index_check",content:["用户名不可以为空", '用户名由中英文、数字及"_"组成，4-15位字符'],type:['',2],reg: 13,checkFormType:obj});
+	var b = jq('.js-userName').checkForm({className:"index_check",content:["用户名不可以为空", '用户名由中英文、数字及"_"组成，4-15位字符'],type:['',2],reg: 13,checkFormType:obj});
 	if(b === 0) {
-		var e = jq('#userName').val().match(/^[0-9]+$/)?1:0;	
+		var e = jq('.js-userName').val().match(/^[0-9]+$/)?1:0;	
 		if(e == 1) {
-			addWrongTip({targ: '#userName', tip: '用户名不能为纯数字'});	
+			addWrongTip({targ: '.js-userName', tip: '用户名不能为纯数字'});	
 		}
-		checkRepeatAndWrong({num:e, val: jq('#userName').val()});
+		checkRepeatAndWrong({num:e, val: jq('.js-userName').val()});
 	}
 }
 
 //检测验证码
 function checkAuthCode(obj) {
-	var a = jq('#autoCode').checkForm({className:"index_check",content:["验证码不可以为空"],type:[''],checkFormType:obj});
-	checkRepeatAndWrong({num:a, val: jq('#autoCode').val()});	
+	var a = jq('.js-autoCode').checkForm({className:"index_check",content:["验证码不可以为空"],type:[''],checkFormType:obj});
+	checkRepeatAndWrong({num:a, val: jq('.js-autoCode').val()});	
 }
 
 //注册检测
 function checkRegInfo() {
 	jq('#reg_form').find('div.index_check').remove();
-	jq('#emailAndPhone').blur(function() {
+	jq('.js-emailAndPhone').blur(function() {
 		checkMailRepeat(this);
 	});
-	jq('#userName').blur(function() {
+	jq('.js-userName').blur(function() {
 		checkUserRepeat(this);
 	});
 	
-	var c = jq('#useNum').checkForm({className:"index_check",content:["密码不可以为空","密码太弱，请重新设定"],type:['',2],reg:{range:{dmin:6, dmax:30}}});
+	var c = jq('.js-useNum').checkForm({className:"index_check",content:["密码不可以为空","密码太弱，请重新设定"],type:['',2],reg:{range:{dmin:6, dmax:30}}});
 
-    // jq('#useNum').bind('blur', function() {
-    //     var c = jq('#useNum').checkForm({className:"index_check",checkFormType:this,content:["密码不可以为空","密码太弱，请重新设定"],type:['',2],reg:{range:{dmin:6, dmax:30}}});
+    // jq('.js-useNum').bind('blur', function() {
+    //     var c = jq('.js-useNum').checkForm({className:"index_check",checkFormType:this,content:["密码不可以为空","密码太弱，请重新设定"],type:['',2],reg:{range:{dmin:6, dmax:30}}});
     //     if(c == 0) {
-    //         var myFlag = /\s/.test(jq('#useNum').val());
+    //         var myFlag = /\s/.test(jq('.js-useNum').val());
     //         if(myFlag) {
-    //             addWrongTip({targ:'#useNum', tip:'密码不能包含空格'});
+    //             addWrongTip({targ:'.js-useNum', tip:'密码不能包含空格'});
     //         }
     //     }
     // });
 
-	jq('#autoCode').blur(function() {
+	jq('.js-autoCode').blur(function() {
 		checkAuthCode(this);	
 	});
 	jq('#as_service').click(function() {
@@ -715,8 +714,9 @@ function checkRegInfo() {
 
 //添加错误提示
 function addWrongTip(obj) {
-	var str = '<div class="index_check"><em></em>'+obj.tip+'</div>';
-	jq(obj.targ).css('border-color','#ff6767').parent().addClass('height_auto').find('.index_check').remove().end().append(str);
+	var str = '<div class="index_check"><em>×</em>'+obj.tip+'</div>';
+    alert(str);
+	jq(obj.targ).css('border-color','#ff6767').parent().find('.index_check').remove().end().append(str);
 }
 
 function companyRegCheck(obj){
@@ -749,7 +749,7 @@ function companyRegCheck(obj){
 function chkServicePro() {
     var g = jq('#sl_service').prop('checked');
     if(!g && jq('.ic_service').length != 1){
-      var str = '<div class="index_check ic_service"><em></em>请阅读服务协议</div>'
+      var str = '<div class="index_check ic_service"><em>×</em>请阅读服务协议</div>'
       jq('.safe_login').after(str)
     }else if(g){
       jq('.ic_service').remove();

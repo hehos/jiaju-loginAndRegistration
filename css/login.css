@@ -131,3 +131,61 @@ table {
 .narrow_980 .container {
   width: 980px;
 }
+body,
+a,
+.otl_left input.binding_act,
+.auth_code label input.autoCodeButton,
+.login_box .btn_login {
+  font-family: "Microsoft YaHei", "Microsoft JhengHei", STHeiti, MingLiu;
+}
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+img {
+  display: block;
+}
+.fl {
+  float: left;
+  display: inline;
+}
+.fr {
+  float: right;
+}
+.ovh {
+  overflow: hidden;
+}
+.f0 {
+  font-size: 0;
+  line-height: 0;
+  text-indent: -999em;
+}
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:after {
+  display: block;
+  clear: both;
+  content: "\0020";
+  visibility: hidden;
+  height: 0;
+}
+.container {
+  min-height: 0;
+  padding-bottom: 30px;
+}
+.login_select .index_check {
+  position: absolute;
+  bottom: 2px;
+  color: #ff6666;
+}
+.login_select .index_check em {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  line-height: 13px;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 50%;
+  background-color: #ff6666;
+  color: #fff;
+}
